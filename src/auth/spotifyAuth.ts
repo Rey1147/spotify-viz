@@ -21,6 +21,15 @@ function now() { return Date.now() }
 
 // Public API
 
+let callbackExchangeInFlight: Promise<void> | null = null
+
+const AUTH_CHANGED_EVENT = "sp_auth_changed"
+function notifyAuthChanged() {
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new Event(AUTH_CHANGED_EVENT))
+  }
+}
+
 export async function startLogin() {
   const verifier = await createCodeVerifier()
   const challenge = await createCodeChallenge(verifier)
@@ -43,6 +52,8 @@ export async function startLogin() {
 }
 
 export async function handleCallback(currentUrl: string) {
+  if (callbackExchangeInFlight) return callbackExchangeInFlight
+
   const url = new URL(currentUrl)
   const code = url.searchParams.get("code")
   const state = url.searchParams.get("state")
@@ -59,28 +70,36 @@ export async function handleCallback(currentUrl: string) {
   const verifier = tempStore.verifier
   if (!verifier) throw new Error("Missing PKCE verifier")
 
-  const body = new URLSearchParams({
-    grant_type: "authorization_code",
-    code,
-    redirect_uri: REDIRECT_URI,
-    client_id: CLIENT_ID,
-    code_verifier: verifier
-  })
+  callbackExchangeInFlight = (async () => {
+    const body = new URLSearchParams({
+      grant_type: "authorization_code",
+      code,
+      redirect_uri: REDIRECT_URI,
+      client_id: CLIENT_ID,
+      code_verifier: verifier
+    })
 
-  const res = await fetch(TOKEN_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body
-  })
+    const res = await fetch(TOKEN_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body
+    })
 
-  if (!res.ok) {
-    const txt = await res.text().catch(() => "")
-    throw new Error(`Token exchange failed: ${res.status} ${txt}`)
+    if (!res.ok) {
+      const txt = await res.text().catch(() => "")
+      throw new Error(`Token exchange failed: ${res.status} ${txt}`)
+    }
+
+    const json = (await res.json()) as TokenResponse
+    saveTokens(json)
+    tempStore.clear()
+  })()
+
+  try {
+    await callbackExchangeInFlight
+  } finally {
+    callbackExchangeInFlight = null
   }
-
-  const json = (await res.json()) as TokenResponse
-  saveTokens(json)
-  tempStore.clear()
 }
 
 export async function getAccessToken(): Promise<string | null> {
@@ -135,8 +154,10 @@ function saveTokens(tr: TokenResponse, isRefresh = false) {
   } else if (!isRefresh && !tokenStore.refreshToken) {
     tokenStore.refreshToken = null
   }
+  notifyAuthChanged()
 }
 
 function clearSession() {
   tokenStore.clearAll()
+  notifyAuthChanged()
 }

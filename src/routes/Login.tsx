@@ -1,7 +1,9 @@
 import { useAuth } from "@/auth/AuthContext"
+import { Navigate } from "react-router-dom"
 
 const Login = () => {
-  const { login } = useAuth()
+  const { login, status } = useAuth()
+  if (status === "authenticated") return <Navigate to="/" replace />
 
   return (
     <div style={{ minHeight: "100vh", display: "grid", placeItems: "center" }}>

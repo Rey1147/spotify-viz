@@ -44,6 +44,21 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return () => { mounted = false; clearInterval(t) }
   }, [])
 
+  useEffect(() => {
+    const handler = async () => {
+      const token = await getAccessToken()
+      if (token) {
+        setAccessToken(token)
+        setStatus("authenticated")
+      } else {
+        setAccessToken(null)
+        setStatus("unauthenticated")
+      }
+    }
+    window.addEventListener("sp_auth_changed", handler)
+    return () => window.removeEventListener("sp_auth_changed", handler)
+  }, [])
+
   const doLogin = useCallback(() => { startLogin() }, [])
   const doLogout = useCallback(() => {
     logout()
