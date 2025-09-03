@@ -1,4 +1,6 @@
 import { createBrowserRouter } from "react-router-dom"
+import Dashbord from "@/pages/Dashbord"
+import Playlist from "@/pages/Playlist"
 import Protected from "./Protected"
 import Login from "./Login"
 import Callback from "./Callback"
@@ -10,8 +12,8 @@ export const router = createBrowserRouter([
     path: "/",
     element: <Protected />,
     children: [
-      { index: true, element: <div>Дашборд</div> },
-      { path: "playlist/:id", element: <div>Плейлист</div> }
+      { index: true, element: <Dashbord /> },
+      { path: "playlist/:id", element: <Playlist /> }
     ]
   }
 ])
