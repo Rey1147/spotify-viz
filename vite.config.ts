@@ -12,4 +12,7 @@ export default defineConfig({
       "@view": path.resolve(__dirname, "src/view"),
     }
   },
+  server: {
+    host: '127.0.0.1',
+  },
 });

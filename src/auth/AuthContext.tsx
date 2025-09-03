@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useEffect, useMemo, useState } from "react"
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react"
 import { getAccessToken, logout, refreshAccessToken, startLogin } from "./spotifyAuth"
 import { tokenStore } from "./storage"
 import type { AuthState } from "../types"
@@ -56,4 +56,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }), [status, accessToken, doLogin, doLogout])
 
   return <AuthCtx.Provider value={value}>{children}</AuthCtx.Provider>
+}
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const useAuth = () => {
+  const ctx = useContext(AuthCtx)
+  if (!ctx) throw new Error("useAuth must be used within AuthProvider")
+  return ctx
 }
