@@ -10,7 +10,6 @@ export const TEMP_KEYS = {
   oauthState:   "oauth_state",
 } as const
 
-
 export const tokenStore = {
   get accessToken() { return localStorage.getItem(STORAGE_KEYS.accessToken) },
   set accessToken(v: string | null) {
