@@ -13,8 +13,9 @@ export async function getMe() {
 }
 
 export async function getAllMyPlaylists(limit = 50) {
+  let offset = 0
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let offset = 0; const items: any[] = []
+  const items: any[] = []
   for (;;) {
     const { data } = await api.get("/me/playlists", { params: { limit, offset }})
     items.push(...data.items)
@@ -45,4 +46,16 @@ export async function getTop(
 export async function getSavedTracks(limit=50, offset=0) {
   const { data } = await api.get("/me/tracks", { params: { limit, offset }})
   return data.items
+}
+
+export const getMyPlaylists = async (limit = 50, offset = 0) => {
+  const { data } = await api.get("/me/playlists", { params: { limit, offset } })
+  return data
+}
+
+export const searchSpotify = async (query: string, type = "track") => {
+  const { data } = await api.get("/search", {
+    params: { q: query, type, limit: 10 },
+  })
+  return data
 }
