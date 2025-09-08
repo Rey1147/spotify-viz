@@ -1,4 +1,4 @@
-import { api } from "./api"
+import { api } from "../api"
 
 type Image = { url: string; width?: number; height?: number };
 type PublicUser = { display_name?: string | null };
