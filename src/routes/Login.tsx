@@ -1,5 +1,5 @@
-import { useAuth } from "@/auth/AuthContext"
 import { Navigate } from "react-router-dom"
+import useAuth from "@/hooks/useAuth"
 
 const Login = () => {
   const { login, status } = useAuth()

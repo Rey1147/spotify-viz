@@ -1,13 +1,24 @@
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react"
+import React, { createContext, useCallback, useEffect, useMemo, useState } from "react"
 import { getAccessToken, logout, refreshAccessToken, startLogin } from "./spotifyAuth"
 import { tokenStore } from "./storage"
 import type { AuthState } from "../types"
 
 const AuthCtx = createContext<AuthState | null>(null)
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [accessToken, setAccessToken] = useState<string | null>(null)
   const [status, setStatus] = useState<AuthState["status"]>("idle")
+
+  const doLogin = useCallback(() => { startLogin() }, [])
+  const doLogout = useCallback(() => {
+    logout()
+    setAccessToken(null)
+    setStatus("unauthenticated")
+  }, [])
+
+  const value = useMemo<AuthState>(() => ({
+    status, accessToken, login: doLogin, logout: doLogout
+  }), [status, accessToken, doLogin, doLogout])
 
   useEffect(() => {
     let mounted = true
@@ -59,23 +70,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return () => window.removeEventListener("sp_auth_changed", handler)
   }, [])
 
-  const doLogin = useCallback(() => { startLogin() }, [])
-  const doLogout = useCallback(() => {
-    logout()
-    setAccessToken(null)
-    setStatus("unauthenticated")
-  }, [])
-
-  const value = useMemo<AuthState>(() => ({
-    status, accessToken, login: doLogin, logout: doLogout
-  }), [status, accessToken, doLogin, doLogout])
-
   return <AuthCtx.Provider value={value}>{children}</AuthCtx.Provider>
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const useAuth = () => {
-  const ctx = useContext(AuthCtx)
-  if (!ctx) throw new Error("useAuth must be used within AuthProvider")
-  return ctx
-}
+export { AuthCtx, AuthProvider }
