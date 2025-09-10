@@ -1,11 +1,16 @@
-import { Navigate, Outlet } from "react-router-dom"
+import { Outlet } from "react-router-dom"
+import { ErrorBoundary } from "react-error-boundary"
 import useAuth from "@/hooks/useAuth"
 
 const Protected = () => {
   const { status } = useAuth()
   if (status === "idle") return <div>Загрузка…</div>
-  if (status === "unauthenticated") return <Navigate to="/login" replace />
-  return <Outlet />
+
+  return (
+    <ErrorBoundary fallbackRender={() => <div>Не удалось загрузить пользователя</div>}>
+      <Outlet />
+    </ErrorBoundary>
+  )
 }
 
 export default Protected

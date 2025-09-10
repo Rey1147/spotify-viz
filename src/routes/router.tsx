@@ -1,6 +1,6 @@
 import { createBrowserRouter, redirect } from "react-router-dom"
-import Dashbord from "@/pages/Dashbord"
-import Playlist from "@/pages/Playlist"
+import Dashbord from "@/pages/DashbordPage"
+import Playlist from "@/pages/PlaylistPage"
 import Protected from "./Protected"
 import Login from "./Login"
 import Callback from "./Callback"
