@@ -1,3 +1,4 @@
+import type { User } from "@/types";
 import { api } from "../api"
 
 type Image = { url: string; width?: number; height?: number };
@@ -30,16 +31,12 @@ interface UserPlaylistSummary {
   public: boolean
 }
 
-export class UserApiServiсe {
-  getUser = async () => {
+class UserApiService {
+  getUser = async (): Promise<User> => {
     const { data } = await api.get('/me')
     return {
-      id: data.id,
-      name: data.display_name ?? data.id,
-      avatar: data.images?.[0]?.url ?? null,
-      country: data.country ?? null,
-      product: data.product ?? null,
-      email: data.email ?? null
+      ...data,
+      avatar: data.images?.[0]?.url ?? null
     }
   }
 
@@ -90,3 +87,5 @@ export class UserApiServiсe {
     return data
   }
 }
+
+export default new UserApiService

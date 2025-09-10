@@ -1,6 +1,6 @@
 import { api } from "../api"
 
-export class PlaylistApiService {
+class PlaylistApiService {
   getInfo = async (id: string) => {
     const { data } = await api.get(`/playlist/${id}`)
     return data
@@ -20,3 +20,5 @@ export class PlaylistApiService {
     return data
   }
 }
+
+export default new PlaylistApiService

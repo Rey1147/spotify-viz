@@ -1,6 +1,6 @@
 import { api } from "../api"
 
-export class AudioApiServiсe {
+class AudioApiServiсe {
   getFeature = async (id: string) => {
     const { data } = await api.get(`/audio-features/${id}`)
     return data
@@ -37,3 +37,5 @@ export class AudioApiServiсe {
     return data
   } 
 }
+
+export default new AudioApiServiсe
