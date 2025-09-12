@@ -1,10 +1,11 @@
 import { useCurrentUser } from "@/hooks/useCurrentUser"
 import { useUserPlaylists } from "@/hooks/useUserPlaylists"
+import { Link } from "react-router-dom"
 
 const Dashbord = () => {
   const user = useCurrentUser()
   const { playlists } = useUserPlaylists()
-
+  
   return (
     <>
       <div>Дашборд</div>
@@ -27,6 +28,9 @@ const Dashbord = () => {
              <div key={playlist.id}>
                <img src={playlist.image || undefined} alt="" />
                <div>{playlist.name}</div>
+               <Link to={`/playlist/${playlist.id}`}>
+                 Открыть плейлист
+               </Link>
              </div>
            ))}
         </div>

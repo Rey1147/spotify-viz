@@ -25,7 +25,8 @@ interface Paging<T> {
 interface UserPlaylistSummary {
   id: string
   name: string
-  image: string | null
+  image: string | null,
+  tracks: PlaylistTracksRef | null
   tracksTotal: number
   owner: string
   public: boolean
@@ -59,6 +60,7 @@ class UserApiService {
       id: p.id,
       name: p.name,
       image: p.images?.[0]?.url ?? null,
+      tracks: p.tracks ?? null,
       tracksTotal: p.tracks?.total ?? 0,
       owner: p.owner?.display_name ?? '',
       public: Boolean(p.public),
