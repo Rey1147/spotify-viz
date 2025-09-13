@@ -14,10 +14,15 @@ class PlaylistApiService {
   ) => {
     const fields = 'items(track(id,name,artists(name),album(name,images),duration_ms,explicit,popularity)),' +
                    'total,limit,offset,next,previous'
-    const { data } = await api.get(`/playlist/${id}/tracks`, {
-      params: {country, fields, limit, offset}
-    })
-    return data
+    
+    try {
+      const { data } = await api.get(`/playlists/${id}/tracks`, {
+        params: {country, fields, limit, offset}
+      })
+      return data
+    } catch (e) {
+      console.log('Error: ', e)
+    }
   }
 }
 
