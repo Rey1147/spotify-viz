@@ -3,7 +3,7 @@ import { useUserPlaylists } from "@/hooks/useUserPlaylists"
 import { Link } from "react-router-dom"
 
 const Dashbord = () => {
-  const user = useCurrentUser()
+  const {user} = useCurrentUser()
   const { playlists } = useUserPlaylists()
   
   return (
