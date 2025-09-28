@@ -1,5 +1,7 @@
 export const QUERY_KEYS = {
   ME: "me",
+  DEVICES: "devices",
+  PLAYER: "player",
   PLAYLISTS: "playlists",
   PLAYLIST: "playlist",
   PLAYLIST_TRACKS_PAGE: "playlistTracksPage",

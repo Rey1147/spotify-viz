@@ -88,6 +88,11 @@ class UserApiService {
     })
     return data
   }
+
+  getUserDevice = async () => {
+    const { data } = await api.get('/me/player/devices')
+    return data
+  }
 }
 
 export default new UserApiService
