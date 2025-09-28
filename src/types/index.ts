@@ -13,3 +13,33 @@ export type User = {
   product?: string,
   email?: string
 }
+
+export type Track = {
+  id: string
+  name: string
+  artists: Array<{
+    name: string
+  }>
+  album: {
+    name: string
+    images: Array<{
+      url: string
+      width: number
+      height: number
+    }>
+  }
+  duration_ms: number
+  explicit: boolean
+  popularity: number
+}
+
+export type PlaylistTracksResponse = {
+  items: Array<{
+    track: Track
+  }>
+  total: number
+  limit: number
+  offset: number
+  next: string | null
+  previous: string | null
+}
