@@ -2,6 +2,7 @@ export const QUERY_KEYS = {
   ME: "me",
   DEVICES: "devices",
   PLAYER: "player",
+  CURRENTLY_PLAYING: "currentlyPlaying",
   PLAYLISTS: "playlists",
   PLAYLIST: "playlist",
   PLAYLIST_TRACKS_PAGE: "playlistTracksPage",

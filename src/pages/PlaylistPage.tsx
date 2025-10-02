@@ -19,10 +19,12 @@ const Playlist = () => {
     staleTime: 30_000,
   })
 
+  const deviceId = data?.devices?.[0]?.id
+
   const { data: player } = useQuery({
-    queryKey: [QUERY_KEYS.PLAYER],
-    queryFn: () => PlayerApiService.transferPlayback(data.devices),
-    enabled: Boolean(data),
+    queryKey: [QUERY_KEYS.PLAYER, deviceId],
+    queryFn: () => PlayerApiService.transferPlayback(deviceId!),
+    enabled: Boolean(deviceId),
     staleTime: 30_000,
   })
   console.log(player)

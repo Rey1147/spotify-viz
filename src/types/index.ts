@@ -43,3 +43,11 @@ export type PlaylistTracksResponse = {
   next: string | null
   previous: string | null
 }
+
+export type CurrentlyPlaying = {
+  timestamp: number
+  progress_ms: number | null
+  is_playing: boolean
+  item: Track | null
+  currently_playing_type: 'track' | 'episode' | 'ad' | 'unknown'
+}
