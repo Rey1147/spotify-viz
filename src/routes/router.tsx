@@ -1,10 +1,11 @@
 import { createBrowserRouter, redirect } from "react-router-dom"
+import { STORAGE_KEYS } from "@/auth/storage"
 import Dashbord from "@/pages/DashbordPage"
 import Playlist from "@/pages/PlaylistPage"
+import Profile from "@/pages/ProfilePage"
 import Protected from "./Protected"
 import Login from "./Login"
 import Callback from "./Callback"
-import { STORAGE_KEYS } from "@/auth/storage"
 
 const guardLoader = () => {
   const at = localStorage.getItem(STORAGE_KEYS.accessToken)
@@ -25,7 +26,8 @@ export const router = createBrowserRouter([
     element: <Protected />,
     children: [
       { index: true, element: <Dashbord /> },
-      { path: "playlist/:id", element: <Playlist /> }
+      { path: "playlist/:id", element: <Playlist /> },
+      { path: "profile", element: <Profile /> }
     ]
   }
 ])
