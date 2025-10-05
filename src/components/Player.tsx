@@ -1,5 +1,6 @@
-import type { Track } from "@/types"
 import { useEffect, useState } from "react"
+import type { Track } from "@/types"
+import PlayerView from "@/view/Player/PlayerView"
 
 type Props = {
   track: Track | null | undefined
@@ -14,14 +15,13 @@ const formatDuration = (ms: number): string => {
 }
 
 const Player = ({ track, isPlaying, progressMs }: Props) => {
-  const durationMs = track?.duration_ms ?? 0
-
   const [displayProgress, setDisplayProgress] = useState<number>(progressMs ?? 0)
-
+  const durationMs = track?.duration_ms ?? 0
+  
   useEffect(() => {
     setDisplayProgress(progressMs ?? 0)
   }, [track?.id, progressMs])
-
+  
   useEffect(() => {
     if (!isPlaying) return
     const id = setInterval(() => {
@@ -30,26 +30,20 @@ const Player = ({ track, isPlaying, progressMs }: Props) => {
     return () => clearInterval(id)
   }, [isPlaying, durationMs])
 
-  if (!track) return null
 
-  const albumImage = track.album.images.find(img => img.width === 64) || track.album.images[0]
-  const artists = track.artists.map(artist => artist.name).join(', ')
+  const albumImage = track?.album.images.find(img => img.width === 64) || track?.album.images[0]
+  const artists = track?.artists.map(artist => artist.name).join(', ')
 
   return (
-    <div>
-      {albumImage && (
-        <img src={albumImage.url} alt={track.album.name} width={64} height={64} />
-      )}
-      <div>
-        <div>{track.name}{track.explicit && <span> E</span>}</div>
-        <div>{artists}</div>
-      </div>
-      {isPlaying ? '▶️' : '⏸️'}
-      <div>
-        <span>{displayProgress != null ? formatDuration(displayProgress) : '--:--'}</span>
-        <span> / {formatDuration(durationMs)}</span>
-      </div>
-    </div>
+    <PlayerView 
+      albumImage={albumImage}
+      track={track}
+      artists={artists}
+      isPlaying={isPlaying}
+      formatDuration={formatDuration}
+      displayProgress={displayProgress}
+      durationMs={durationMs}
+    />
   )
 }
 
