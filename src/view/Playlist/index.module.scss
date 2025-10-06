@@ -1,0 +1,56 @@
+.playlistlist {
+  background-color: #383838;
+  border-radius: 16px;
+  padding: 20px 25px;
+  color: #D9D9D9;
+  height: 100%;
+
+  &__title {
+    font-size: 20px;
+    font-weight: 650;
+    margin-bottom: 20px;
+  }
+
+  &__items {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-height: 60vh;
+    overflow-y: auto;
+    padding-right: 15px;
+  }
+}
+
+.playlist {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  &__link {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  &__image {
+    height: 60px;
+    width: 60px;
+    border-radius: 6px;
+  }
+
+  &__description {
+    color: #D9D9D9;
+    margin: auto 0;
+
+    &_name {
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 600;
+    }
+    &_owner {
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
+
+}

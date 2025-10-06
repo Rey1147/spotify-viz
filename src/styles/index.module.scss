@@ -8,10 +8,19 @@
 .page {
   width: 100vw;
   height: 100vh;
-  background-color: aliceblue;
+  background-color: #1D1D1D;
 
   &__main {
-    padding-top: 82px;
-    // margin: 35px 30px 30px;
+    height: 100%;
+    padding: 80px 0 95px;
+    margin: 0 20px;
   }
+}
+
+.dashboard {
+  height: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 20px;
+  padding: 20px 0;
 }

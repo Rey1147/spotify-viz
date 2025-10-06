@@ -51,3 +51,10 @@ export type CurrentlyPlaying = {
   item: Track | null
   currently_playing_type: 'track' | 'episode' | 'ad' | 'unknown'
 }
+
+export type Playlist = {
+  id: string
+  image: string | null
+  name: string
+  owner: string
+}
